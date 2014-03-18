@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MobWeb_AccountCurrency>
+            <active>true</active>
+            <codePool>local</codePool>
+        </MobWeb_AccountCurrency>
+    </modules>
+</config>

@@ -1,0 +1,6 @@
+app/code/local/MobWeb/AccountCurrency app/code/local/MobWeb/AccountCurrency/
+
+app/etc/modules/MobWeb_AccountCurrency.xml app/etc/modules/MobWeb_AccountCurrency.xml
+
+# Clear the cache
+@shell   rm -rf $PROJECT/var/cache/* && echo "Magento Cache cleared"

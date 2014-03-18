@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <MobWeb_AccountCurrency>
+            <version>0.1.0</version>
+        </MobWeb_AccountCurrency>
+    </modules>
+    <global>
+        <models>
+            <accountcurrency>
+                <class>MobWeb_AccountCurrency_Model</class>
+            </accountcurrency>
+        </models>
+        <helpers>
+            <accountcurrency>
+                <!-- As explained in the file, this helper is only created
+                so that the __() translate function can be used! -->
+                <class>MobWeb_AccountCurrency_Helper</class>
+            </accountcurrency>
+        </helpers>
+        <resources>
+            <accountcurrency_setup>
+                <setup>
+                    <module>MobWeb_AccountCurrency</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
+                    <!-- Some objects use a more general entity, e.g.
+                    products: -->
+                    <!-- <class>Mage_Catalog_Model_Entity_Setup</class> -->
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </accountcurrency_setup>
+        </resources>
+    </global>
+    <frontend>
+        <events>
+            <!-- When the customer logs in, check if an "Account Currency"
+            has been set for their account. If yes, update the current session
+            currency with that currency -->
+            <customer_login>
+                <observers>
+                    <accountcurrency>
+                        <type>singleton</type>
+                        <class>accountcurrency/observer</class>
+                        <method>customerLogin</method>
+                    </accountcurrency>
+                </observers>
+            </customer_login>
+            <!-- This custom observer saves the newly selected currency code
+            in the customer object, if the customer is logged in -->
+            <currency_switch>
+                <observers>
+                    <accountcurrency>
+                        <type>singleton</type>
+                        <class>accountcurrency/observer</class>
+                        <method>currencySwitch</method>
+                    </accountcurrency>
+                </observers>
+            </currency_switch>
+        </events>
+        <!-- Overwrite the "Currency Switch" controller to add our custom
+        observer so that we can observe the "Currency Switch" event -->
+        <routers>
+            <directory>
+                <args>
+                    <modules>
+                        <MobWeb_AccountCurrency before="Mage_Directory">MobWeb_AccountCurrency</MobWeb_AccountCurrency>
+                    </modules>
+                </args>
+            </directory>
+        </routers>
+    </frontend>
+</config>
